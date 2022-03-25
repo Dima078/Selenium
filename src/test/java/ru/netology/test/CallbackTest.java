@@ -15,6 +15,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class CallbackTest {
 
     private WebDriver driver;
+    WebDriverManager wdm = WebDriverManager.chromedriver().browserInDocker()
+            .enableVnc().enableRecording();
 
     @BeforeAll
     public static void setUpAll() {
@@ -24,6 +26,7 @@ public class CallbackTest {
 
     @BeforeEach
     void setUp() {
+        driver = wdm.create();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
         options.addArguments("disable-infobars");
