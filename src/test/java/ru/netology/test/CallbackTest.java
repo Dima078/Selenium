@@ -50,4 +50,27 @@ public class CallbackTest {
         assertEquals(expectedText, actualText);
         driver.close();
     }
+
+    @Test
+    public void souldSetInvalidName() {
+        driver.get("http://localhost:9999/");
+        driver.findElement(By.cssSelector("[data-test-id = 'name'] input")).sendKeys("Vasia Terkin");
+        driver.findElement(By.cssSelector("[data-test-id = 'phone'] input")).sendKeys("+99999999999");
+        driver.findElement(By.cssSelector("[data-test-id = 'agreement']")).click();
+        driver.findElement(By.tagName("button")).click();
+        String actualText = driver.findElement(By.className("input__sub")).getText().trim();
+        String expectedText = "Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.";
+        assertEquals(expectedText, actualText);
+        driver.close();
+    }
+
+    @Test
+    public void souldSetEmptyName() {
+        driver.get("http://localhost:9999/");
+        driver.findElement(By.tagName("button")).click();
+        String actualText = driver.findElement(By.className("input__sub")).getText().trim();
+        String expectedText = "Поле обязательно для заполнения";
+        assertEquals(expectedText, actualText);
+        driver.close();
+    }
 }
