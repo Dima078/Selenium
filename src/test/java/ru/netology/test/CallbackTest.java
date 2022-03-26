@@ -40,7 +40,6 @@ public class CallbackTest {
 
     @Test
     public void souldSendForm() {
-        driver = new ChromeDriver();
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id = 'name'] input")).sendKeys("Вася Теркин");
         driver.findElement(By.cssSelector("[data-test-id = 'phone'] input")).sendKeys("+99999999999");
