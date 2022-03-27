@@ -58,7 +58,7 @@ public class CallbackTest {
         driver.findElement(By.cssSelector("[data-test-id = 'phone'] input")).sendKeys("+99999999999");
         driver.findElement(By.cssSelector("[data-test-id = 'agreement']")).click();
         driver.findElement(By.tagName("button")).click();
-        String actualText = driver.findElement(By.className("input__sub")).getText().trim();
+        String actualText = driver.findElement(By.cssSelector("[data-test-id = 'name'] .input__sub")).getText().trim();
         String expectedText = "Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.";
         assertEquals(expectedText, actualText);
         driver.close();
@@ -68,7 +68,7 @@ public class CallbackTest {
     public void souldSetEmptyName() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.tagName("button")).click();
-        String actualText = driver.findElement(By.className("input__sub")).getText().trim();
+        String actualText = driver.findElement(By.cssSelector("[data-test-id = 'name'] .input__sub")).getText().trim();
         String expectedText = "Поле обязательно для заполнения";
         assertEquals(expectedText, actualText);
         driver.close();
@@ -79,8 +79,32 @@ public class CallbackTest {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id = 'name'] input")).sendKeys("Вася Теркин");
         driver.findElement(By.tagName("button")).click();
-        String actualText = driver.findElement(By.cssSelector(".input_invalid")).getText().trim();
+        String actualText = driver.findElement(By.cssSelector("[data-test-id = 'phone'] .input__sub")).getText().trim();
         String expectedText = "Поле обязательно для заполнения";
+        assertEquals(expectedText, actualText);
+        driver.close();
+    }
+
+    @Test
+    public void souldSetTelSub11() {
+        driver.get("http://localhost:9999/");
+        driver.findElement(By.cssSelector("[data-test-id = 'name'] input")).sendKeys("Вася Теркин");
+        driver.findElement(By.cssSelector("[data-test-id = 'phone'] input")).sendKeys("+99999");
+        driver.findElement(By.tagName("button")).click();
+        String actualText = driver.findElement(By.cssSelector("[data-test-id = 'phone'] .input__sub")).getText().trim();
+        String expectedText = "Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.";
+        assertEquals(expectedText, actualText);
+        driver.close();
+    }
+
+    @Test
+    public void souldSendWithOutСheck() {
+        driver.get("http://localhost:9999/");
+        driver.findElement(By.cssSelector("[data-test-id = 'name'] input")).sendKeys("Вася Теркин");
+        driver.findElement(By.cssSelector("[data-test-id = 'phone'] input")).sendKeys("+99999999999");
+        driver.findElement(By.tagName("button")).click();
+        String actualText = actualText = driver.findElement(By.cssSelector("[data-test-id = 'phone'] .input__sub")).getText().trim();
+        String expectedText = "На указанный номер моб. тел. будет отправлен смс-код для подтверждения заявки на карту. Проверьте, что номер ваш и введен корректно.";
         assertEquals(expectedText, actualText);
         driver.close();
     }
