@@ -73,4 +73,15 @@ public class CallbackTest {
         assertEquals(expectedText, actualText);
         driver.close();
     }
+
+    @Test
+    public void souldSetEmptyTel() {
+        driver.get("http://localhost:9999/");
+        driver.findElement(By.cssSelector("[data-test-id = 'name'] input")).sendKeys("Вася Теркин");
+        driver.findElement(By.tagName("button")).click();
+        String actualText = driver.findElement(By.cssSelector(".input_invalid")).getText().trim();
+        String expectedText = "Поле обязательно для заполнения";
+        assertEquals(expectedText, actualText);
+        driver.close();
+    }
 }
